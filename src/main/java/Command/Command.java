@@ -5,6 +5,7 @@
  */
 package Command;
 
+import java.io.File;
 import java.util.List;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.MessageBuilder;
@@ -56,7 +57,27 @@ public abstract class Command extends ListenerAdapter {
     }
 
     protected Message sendMessageEmbed(MessageReceivedEvent e, EmbedBuilder eb) {
-        return e.getTextChannel().sendMessage(eb.build()).complete();
+        if (e.isFromType(ChannelType.PRIVATE)) {
+            return e.getPrivateChannel().sendMessage(eb.build()).complete();
+        } else {
+            return e.getTextChannel().sendMessage(eb.build()).complete();
+        }
+    }
+
+    protected Message sendFile(MessageReceivedEvent e, File file) {
+        if (e.isFromType(ChannelType.PRIVATE)) {
+            return e.getPrivateChannel().sendFile(file).complete();
+        } else {
+            return e.getTextChannel().sendFile(file).complete();
+        }
+    }
+
+    protected Message sendFileMessage(MessageReceivedEvent e, File file, String message) {
+        if (e.isFromType(ChannelType.PRIVATE)) {
+            return e.getPrivateChannel().sendFile(file, message).complete();
+        } else {
+            return e.getTextChannel().sendFile(file, message).complete();
+        }
     }
 
     protected boolean respondToBots() {
