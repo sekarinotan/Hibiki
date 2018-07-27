@@ -1,0 +1,2 @@
+# Hibiki
+Hibiki discord bot
