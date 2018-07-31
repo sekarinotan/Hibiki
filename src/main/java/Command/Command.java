@@ -59,6 +59,7 @@ public abstract class Command extends ListenerAdapter {
     protected Message sendMessageEmbed(MessageReceivedEvent e, EmbedBuilder eb) {
         if (e.isFromType(ChannelType.PRIVATE)) {
             return e.getPrivateChannel().sendMessage(eb.build()).complete();
+            
         } else {
             return e.getTextChannel().sendMessage(eb.build()).complete();
         }

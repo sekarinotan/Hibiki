@@ -22,6 +22,9 @@ import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.jsoup.nodes.Element;
+import util.Lodestone;
+import util.LodestoneManager;
 
 /**
  *
@@ -39,9 +42,12 @@ public class FFlogsCommand extends Command {
     public void onCommand(MessageReceivedEvent e, String[] args) {
         try {
             JSONArray json = jsonReader("https://www.fflogs.com/v1/parses/character/" + args[2] + "%20" + args[3] + "/" + args[1] + "/na?metric=dps&api_key=" + token);
-            JSONObject jo = json.getJSONObject(json.length() - 1);
+            Lodestone ls = LodestoneManager.getInstance(args).getLodestone();
+            JSONObject jo = json.getJSONObject(getNewest(json));
+
             EmbedBuilder eb = new EmbedBuilder();
             eb.setAuthor(jo.getString("characterName"));
+            eb.setThumbnail(ls.getAvatarLink());
             eb.setTitle(jo.getString("encounterName"), "https://www.fflogs.com/reports/" + jo.getString("reportID"));
             eb.addField("Job", jo.getString("spec"), true);
             eb.addField("DPS", String.valueOf(jo.getInt("total")), true);
@@ -54,7 +60,7 @@ public class FFlogsCommand extends Command {
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList("/fflog");
+        return Arrays.asList("/fflogs");
     }
 
     private JSONArray jsonReader(String url) throws MalformedURLException, IOException {
@@ -75,5 +81,17 @@ public class FFlogsCommand extends Command {
             sb.append((char) cp);
         }
         return sb.toString();
+    }
+
+    private int getNewest(JSONArray json) {
+        long epoch = 0;
+        int index = 0;
+        for (int i = 0; i < json.length(); i++) {
+            if (json.getJSONObject(i).getLong("startTime") > epoch) {
+                epoch = json.getJSONObject(i).getLong("startTime");
+                index = i;
+            }
+        }
+        return index;
     }
 }

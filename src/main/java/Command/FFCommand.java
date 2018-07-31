@@ -24,6 +24,8 @@ public class FFCommand extends Command {
                 if (checkMention(mu)) {
                     if (mu.get(0).isBot()) {
                         sendMessage(e, mu.get(0).getAsMention()+ " slaps " + e.getAuthor().getAsMention() );
+                    } else if (e.getAuthor().getAsMention().equals(mu.get(0).getAsMention())) {
+                        sendMessage(e,"r u ok?");
                     } else {
                         sendMessage(e, e.getAuthor().getAsMention() + " slaps " + mu.get(0).getAsMention());
                     }
