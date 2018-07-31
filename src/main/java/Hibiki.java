@@ -23,6 +23,8 @@ public class Hibiki {
         builder.addEventListener(new FFCommand());
         builder.addEventListener(new VoteCommand());
         builder.addEventListener(new StickerCommand());
+        builder.addEventListener(new etcCommand());
+        builder.addEventListener(new LodestoneCommand());
         builder.addEventListener(new FFlogsCommand(conf.getFfLogsToken()));
         builder.buildAsync();
     }
