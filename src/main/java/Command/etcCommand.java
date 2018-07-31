@@ -21,8 +21,6 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
  */
 public class etcCommand extends Command {
 
-    SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
     @Override
     public void onCommand(MessageReceivedEvent e, String[] args) {
         switch (args[0]) {
