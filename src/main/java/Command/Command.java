@@ -6,6 +6,7 @@
 package Command;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.MessageBuilder;

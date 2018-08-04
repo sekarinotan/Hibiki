@@ -12,6 +12,15 @@ public class Configuration {
 
     private String botToken;
     private String ffLogsToken;
+    private String googleToken;
+
+    public String getGoogleToken() {
+        return googleToken;
+    }
+
+    public void setGoogleToken(String googleToken) {
+        this.googleToken = googleToken;
+    }
 
     public String getBotToken() {
         return botToken;

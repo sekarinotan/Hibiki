@@ -1,9 +1,12 @@
 package Command;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import util.YoldanceManager;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -32,6 +35,16 @@ public class FFCommand extends Command {
                 }
                 break;
             case "/yoldance":
+                String avatarLink = e.getAuthor().getAvatarUrl();
+                String userID = e.getAuthor().getId();
+                YoldanceManager yol = new YoldanceManager();
+                try {
+                    yol.createYoldance(avatarLink, userID);
+                    File gif = new File(userID+".gif");
+                    sendFile(e, gif);
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
 //                sendMessage(e, e.getAuthor().getAsMention() + " Your dps : " + roll);
                 break;
             default:

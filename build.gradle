@@ -1,0 +1,61 @@
+plugins {
+    id 'java'
+}
+
+def versionObj = new Version(major: 0, minor: 1, revision: 0)
+group 'atelier.sekarinotan'
+archivesBaseName = 'Hibiki'
+version = "${versionObj.toString()}"
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+def filteredSourceDir = file("${buildDir}/filtered")
+
+sourceSets {
+    // This source set will contain all sources that we filter
+    filtered {
+        java {
+            srcDirs = [
+                    filteredSourceDir,
+                    'src/test/java',
+            ]
+        }
+    }
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile 'net.dv8tion:JDA:3.7.1_387'
+    compile 'com.google.code.gson:gson:2.8.1'
+    compile 'commons-io:commons-io:2.5'
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.1'
+    compile 'org.jsoup:jsoup:1.11.3'
+    compile 'net.coobird:thumbnailator:0.4.8'
+}
+
+class Version {
+    int major, minor, revision
+
+    String getBuild() {
+        System.getenv('BUILD_NUMBER') ? System.getenv('BUILD_NUMBER') : 'DEV'
+    }
+
+    String toString() {
+        "$major.$minor.$revision"
+    }
+}
+
+task fatJar(type: Jar) {
+    manifest {
+        attributes 'Implementation-Version': version
+        attributes 'Main-Class': 'Hibiki'
+    }
+    baseName = project.name + '-withDependencies'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
+assemble.dependsOn fatJar

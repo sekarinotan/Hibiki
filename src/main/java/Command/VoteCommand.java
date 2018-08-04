@@ -14,7 +14,7 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
  *
  * @author adminpc
  */
-public class VoteCommand extends Command{
+public class VoteCommand extends Command {
 
     private final Random rand = new Random();
     
