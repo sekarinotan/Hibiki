@@ -6,3 +6,4 @@ Hibiki discord bot with some FFXIV command
 * [jsoup](https://jsoup.org/) - JAVA HTML Parser
 * [Open Imaging](https://github.com/DhyanB/Open-Imaging) - GIF Decoder
 * [Thumbnailator](https://github.com/coobird/thumbnailator) - Image Resize
+* [Currency Converter](https://www.currencyconverterapi.com/) - Currency Exchange API
