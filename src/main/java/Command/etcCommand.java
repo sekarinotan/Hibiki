@@ -5,18 +5,20 @@
  */
 package Command;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.Arrays;
 import java.util.List;
+
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import util.CurrencyManager;
 
 /**
- *
  * @author adminpc
  */
 public class etcCommand extends Command {
@@ -53,6 +55,26 @@ public class etcCommand extends Command {
                 userinfo.addField("Avatar url", info.getAvatarUrl(), true);
                 sendMessageEmbed(e, userinfo);
                 break;
+            case "/exchange":
+            case "/ex":
+            case "/exc":
+                CurrencyManager cm = new CurrencyManager();
+                if (cm.isNumeric(args[3])) {
+                    try {
+                        int rate = (int) cm.getRate(args);
+                        int moni = Integer.valueOf(args[3]);
+                        String moniformated = String.format("%,.2f", (double) moni);
+                        String result = String.format("%,.2f", (double) (rate * moni));
+                        EmbedBuilder eb = new EmbedBuilder();
+                        eb.setTitle("Conversion from " + args[1].toUpperCase() + " " + moniformated + " to " + args[2].toUpperCase());
+                        eb.addField("Current Rate", String.valueOf(rate), false);
+                        eb.addField("Result", args[2].toUpperCase() + " " + result, false);
+                        sendMessageEmbed(e, eb);
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+                break;
             default:
                 return;
         }
@@ -60,7 +82,7 @@ public class etcCommand extends Command {
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList("goodbot", "badbot", "cutebot", "dumbbot", "/info");
+        return Arrays.asList("goodbot", "badbot", "cutebot", "dumbbot", "/info", "/exchange","/ex","/exc");
     }
 
 }
